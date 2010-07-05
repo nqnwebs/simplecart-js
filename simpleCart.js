@@ -698,7 +698,7 @@ function Cart(){
                 return "NOK&nbsp;";
             case PLN:
                 return "PLN&nbsp;";
-            case SEK
+            case SEK:
                 return "SEK&nbsp;";
             case JPY:
                 return "&yen;";
