@@ -55,10 +55,11 @@ function Cart(){
     
     /* variables for dineroMail */
     me.dmMerchantId  = "";
-    //me.dmSellerName = ""; //text replacement for default seller description (email)
-    //me.dmHeaderImage = ""; //Image URL to display in the Header.
-    me.dmCurrency = ARS;  //Valid inputs are USD, ARS, MXN, CLP or BRL 
     me.dmCountryId = 1; //Country 1 = Argentine, 2=Brazil, 3=Chile, 4=Mexico... 
+
+    //me.dmCurrency = ""; //valid values are USD, ARS, MXN, CLP o BRL. Use the local currency if isn't set.
+    //me.dmSellerName = ""; //text replacement for default seller description (email)
+    //me.dmHeaderImage = ""; //Image URL to display in the Header.    
     //me.dmOkUrl = "" //URL to redirect the buyer in case of successful transaction
     //me.dmErrorUrl = "" //URL to redirect the buyer in case of an error in transaction
     //me.dmPendingUrl = "" //URL to redirect the buyer in case of pending transaction
@@ -311,23 +312,23 @@ function Cart(){
         //implemented by Martín Gaitán http://nqnwebs.com
 
         var me = this;
+
+        var dmCountryToMoney = new Array();
+            dmCountryToMoney[1] = ARS;
+            dmCountryToMoney[2] = BRL;
+            dmCountryToMoney[3] = CLP;
+            dmCountryToMoney[4] = MXN;
         
-
-        if( me.dmCurrency != USD && me.dmCurrency != ARS && me.dmCurrency != MXN && me.dmCurrency != CLP && me.dmCurrency != BRL) {
-
-            if( me.currency == USD ) {
-                    me.dmCurrency = me.currency;
-                } else {
-                    error( "DineroMail only allows USD, ARS, MXN, CLP or BRL for currency.");
-                    return;
-                }
+        if ( 1 > me.dmCountryId > 4 ) {
+            error( "Error in the Country Id for dineromail checkout supplied.");
+            return;
         }
-        
+
+        else if(!me.dmCurrency || me.dmCurrency != USD ) {
+            me.dmCurrency = dmCountryToMoney[me.dmCountryId]; 
+        }
         else if( me.dmMerchantId === "" || me.dmMerchantId === null || !me.dmMerchantId ) {
             error( "No merchant Id for dineromail checkout supplied.");
-            return;
-        } else if ( 1 > me.dmCountryId > 4 ) {
-            error( "Error in the Country Id for dineromail checkout supplied.");
             return;
         }
 
