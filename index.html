@@ -9,8 +9,9 @@
 
 <script type="text/javascript" src="simpleCart.js"></script>
 <script type="text/javascript">
-    //simpleCart.email = "brett@wojodesign.com";
-    simpleCart.checkoutTo = DineroMail;
+    simpleCart.checkoutTo = PayPal; //by default
+
+    simpleCart.email = "gaitan@gmail.com";    
     simpleCart.dmMerchantId = '1500308'; //'0242844'; 
     //simpleCart.dmCountryId = 3;
     //simpleCart.dmCurrency = USD;
@@ -130,6 +131,13 @@ Tax: <span class="simpleCart_taxCost"></span> <br />
 Shipping: <span class="simpleCart_shippingCost"></span> <br />
 -----------------------------<br />
 Final Total: <span class="simpleCart_finalTotal"></span> <br />
+
+
+<h3>Method</h3>
+
+<label>Paypal</label> <input type="radio" name="method" class="simpleCart_to_paypal"> 
+<label>Google Checkout</label><input type="radio" name="method" class="simpleCart_to_googlecheckout">
+<label>DineroMail</label><input type="radio" name="method" class="simpleCart_to_dineromail">
 
 <a href="javascript:;" class="simpleCart_checkout">checkout</a>
 </body>
