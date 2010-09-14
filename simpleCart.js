@@ -56,7 +56,7 @@ function Cart(){
     /* variables for dineroMail */
     me.dmMerchantId  = "";
     me.dmCountryId = 1; //Country 1 = Argentine, 2=Brazil, 3=Chile, 4=Mexico... 
-
+    me.dmPaymentMethods = "all"; //see documentation to enable o disable methods
     //me.dmCurrency = ""; //valid values are USD, ARS, MXN, CLP o BRL. Use the local currency if isn't set.
     //me.dmSellerName = ""; //text replacement for default seller description (email)
     //me.dmHeaderImage = ""; //Image URL to display in the Header.    
@@ -345,20 +345,18 @@ function Cart(){
         form.appendChild( me.createHiddenElement( "tool" , 'cart' ) );
         form.appendChild( me.createHiddenElement( "merchant" , me.dmMerchantId ) );
         form.appendChild( me.createHiddenElement( "currency" , me.dmCurrency.toLowerCase() ) );
-        form.appendChild( me.createHiddenElement( "payment_method_available" , "all") );
         form.appendChild( me.createHiddenElement( "country_id" , me.dmCountryId) );
+        form.appendChild( me.createHiddenElement( "change_quantity" , 0) );
+        form.appendChild( me.createHiddenElement( "payment_method_available" , me.dmPaymentMethods) );
+    
 
         //optinal inputs
         if (me.dmSellerName) { 
-            form.appendChild( me.createHiddenElement( "seller_name" , me.dmSellerName ) );
+            form.appendChild( me.createHiddenElement( "seller_name" , me.dmSellerName.substring(0,50) ) );
         }
         else if (me.dmHeaderImage) { 
             form.appendChild( me.createHiddenElement( "header_image" , me.dmHeaderImage ) );
         }
-        else if (me.dmHeaderImage) { 
-            form.appendChild( me.createHiddenElement( "header_image" , me.dmHeaderImage ) );
-        }
-
         else if (me.dmOkUrl) { 
             form.appendChild( me.createHiddenElement( "ok_url" , me.dmOkUrl ) );
         }
@@ -377,19 +375,10 @@ function Cart(){
             form.appendChild( me.createHiddenElement( "item_ammount_"  + counter, Math.floor(item.price * 100) ) );
             form.appendChild( me.createHiddenElement( "item_currency_"  + counter, me.dmCurrency.toLowerCase() ) );    
 
-            var descriptionString = "";
-            
-            for( var field in item){
-                if( typeof( item[field] ) != "function" && 
-                                    field != "id"       && 
-                                    field != "quantity" && 
-                                    field != "price" )
-                {
-                        descriptionString = descriptionString + ", " + field + ": " + item[field];              
-                }
+
+            if ( item.code ) {
+                form.appendChild( me.createHiddenElement( "item_code_"  + counter, item.code.substring(0,20) ) );    
             }
-            descriptionString = descriptionString.substring( 1 );
-            form.appendChild( me.createHiddenElement( "item_description_" + counter, descriptionString) );
             counter++;
         }
 
